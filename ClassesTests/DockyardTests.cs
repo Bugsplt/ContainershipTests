@@ -7,6 +7,10 @@ namespace TestContainership.ClassesTests
     [TestClass]
     public class DockyardTests
     {
+        /// <summary>
+        /// Tests if generating a new shipment generates the expected amount of containers
+        /// and if the containers are ordered by weight
+        /// </summary>
         [TestMethod]
         public void TestNewShipment()
         {
@@ -16,25 +20,41 @@ namespace TestContainership.ClassesTests
             //act
             dockyard.NewShipment(containerNr);
             //assert
-            Assert.AreEqual(containerNr, dockyard.GetCooledContainers().Count + dockyard.GetCooledValuableContainers().Count + dockyard.GetNormalContainers().Count + dockyard.GetValuableContainers().Count);
+            var count = dockyard.GetCooledContainers().Count 
+                        + dockyard.GetCooledValuableContainers().Count 
+                        + dockyard.GetNormalContainers().Count 
+                        + dockyard.GetValuableContainers().Count;
+            Assert.AreEqual(containerNr, count,
+                $"Container count incorrect, expected : {containerNr} got {count}");
             for (var i = 0; i < dockyard.GetCooledContainers().Count - 1; i++)
             {
-                Assert.IsTrue(dockyard.GetCooledContainers()[i].Weight >= dockyard.GetCooledContainers()[i+1].Weight);
+                Assert.IsTrue(dockyard.GetCooledContainers()[i].Weight 
+                              >= dockyard.GetCooledContainers()[i+1].Weight,
+                    "List not ordered by weight.");
             }
             for (var i = 0; i < dockyard.GetCooledValuableContainers().Count - 1; i++)
             {
-                Assert.IsTrue(dockyard.GetCooledValuableContainers()[i].Weight >= dockyard.GetCooledValuableContainers()[i+1].Weight);
+                Assert.IsTrue(dockyard.GetCooledValuableContainers()[i].Weight 
+                              >= dockyard.GetCooledValuableContainers()[i+1].Weight,
+                    "List not ordered by weight.");
             }
             for (var i = 0; i < dockyard.GetValuableContainers().Count - 1; i++)
             {
-                Assert.IsTrue(dockyard.GetValuableContainers()[i].Weight >= dockyard.GetValuableContainers()[i+1].Weight);
+                Assert.IsTrue(dockyard.GetValuableContainers()[i].Weight 
+                >= dockyard.GetValuableContainers()[i+1].Weight,
+                "List not ordered by weight.");
             }
             for (var i = 0; i < dockyard.GetNormalContainers().Count - 1; i++)
             {
-                Assert.IsTrue(dockyard.GetNormalContainers()[i].Weight >= dockyard.GetNormalContainers()[i+1].Weight);
+                Assert.IsTrue(dockyard.GetNormalContainers()[i].Weight 
+                >= dockyard.GetNormalContainers()[i+1].Weight,
+                "List not ordered by weight.");
             }
         }
         
+        /// <summary>
+        /// Tests if the remove container function removes the correct container
+        /// </summary>
         [TestMethod]
         public void TestRemoveNormalContainer()
         {
@@ -46,10 +66,15 @@ namespace TestContainership.ClassesTests
             //act
             dockyard.RemoveNormalContainer(removeContainer);
             //assert
-            Assert.AreEqual(newCount, dockyard.GetNormalContainers().Count);
-            Assert.IsFalse(dockyard.GetNormalContainers().Contains(removeContainer));
+            Assert.AreEqual(newCount, dockyard.GetNormalContainers().Count, 
+                "Expects to have removed 1 of the containers");
+            Assert.IsFalse(dockyard.GetNormalContainers().Contains(removeContainer),
+                "The removed container was found within the list");
         }
         
+        /// <summary>
+        /// Tests if the remove container function removes the correct container
+        /// </summary>
         [TestMethod]
         public void TestRemoveCooledContainer()
         {
@@ -61,10 +86,15 @@ namespace TestContainership.ClassesTests
             //act
             dockyard.RemoveCooledContainer(removeContainer);
             //assert
-            Assert.AreEqual(newCount, dockyard.GetCooledContainers().Count);
-            Assert.IsFalse(dockyard.GetCooledContainers().Contains(removeContainer));
+            Assert.AreEqual(newCount, dockyard.GetCooledContainers().Count,
+                "Expects to have removed 1 of the containers");
+            Assert.IsFalse(dockyard.GetCooledContainers().Contains(removeContainer),
+                "The removed container was found within the list");
         }
         
+        /// <summary>
+        /// Tests if the remove container function removes the correct container
+        /// </summary>
         [TestMethod]
         public void TestRemoveCooledValuableContainer()
         {
@@ -76,10 +106,15 @@ namespace TestContainership.ClassesTests
             //act
             dockyard.RemoveCooledValuableContainer(removeContainer);
             //assert
-            Assert.AreEqual(newCount, dockyard.GetCooledValuableContainers().Count);
-            Assert.IsFalse(dockyard.GetCooledValuableContainers().Contains(removeContainer));
+            Assert.AreEqual(newCount, dockyard.GetCooledValuableContainers().Count,
+                "Expects to have removed 1 of the containers");
+            Assert.IsFalse(dockyard.GetCooledValuableContainers().Contains(removeContainer),
+                "The removed container was found within the list");
         }
         
+        /// <summary>
+        /// Tests if the remove container function removes the correct container
+        /// </summary>
         [TestMethod]
         public void TestRemoveValuableContainer()
         {
@@ -91,8 +126,10 @@ namespace TestContainership.ClassesTests
             //act
             dockyard.RemoveValuableContainer(removeContainer);
             //assert
-            Assert.AreEqual(newCount, dockyard.GetValuableContainers().Count);
-            Assert.IsFalse(dockyard.GetValuableContainers().Contains(removeContainer));
+            Assert.AreEqual(newCount, dockyard.GetValuableContainers().Count,
+                "Expects to have removed 1 of the containers");
+            Assert.IsFalse(dockyard.GetValuableContainers().Contains(removeContainer),
+                "The removed container was found within the list");
         }
     }
 }

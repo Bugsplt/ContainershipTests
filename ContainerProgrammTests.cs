@@ -8,10 +8,14 @@ namespace TestContainership
     [TestClass]
     public class ContainerProgrammTests
     {
+        /// <summary>
+        /// Tests if the chat output matches the ship state when the Main function
+        /// has been executed with standard data. Does this a thousand times to
+        /// diminish faulty passes due to rng
+        /// </summary>
         [TestMethod]
         public void TestMainStandardData()
         {
-            //loop 1000 times to get high probability of all rng cases
             for (var i = 0; i < 1000; i++)
             {
                 //arrange
@@ -26,43 +30,47 @@ namespace TestContainership
                 //assert
                 if (sw.ToString().Contains("Too many cooled valuable containers!"))
                 {
-                    Assert.IsTrue(!sw.ToString().Contains("CooledValuable containers left: 0"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(!sw.ToString().Contains("CooledValuable containers left: 0"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
                 else
                 {
-                    Assert.IsTrue(sw.ToString().Contains("CooledValuable containers left: 0"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(sw.ToString().Contains("CooledValuable containers left: 0"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
 
                 if (sw.ToString().Contains("Too many valuable containers!"))
                 {
-                    Assert.IsTrue(!sw.ToString().Contains("\nValuable containers left: 0"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(!sw.ToString().Contains("\nValuable containers left: 0"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
                 else
                 {
-                    Assert.IsTrue(sw.ToString().Contains("\nValuable containers left: 0"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(sw.ToString().Contains("\nValuable containers left: 0"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
 
                 if (sw.ToString().Contains("Too many cooled containers!"))
                 {
-                    Assert.IsTrue(!sw.ToString().Contains("Cooled containers left: 0"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(!sw.ToString().Contains("Cooled containers left: 0"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
                 else
                 {
-                    Assert.IsTrue(sw.ToString().Contains("Cooled containers left: 0"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(sw.ToString().Contains("Cooled containers left: 0"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
 
                 if (!sw.ToString().Contains("Normal containers left: 0"))
                 {
-                    Assert.IsTrue(sw.ToString().Contains("Max load reached"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(sw.ToString().Contains("Max load reached"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
                 else
                 {
-                    Assert.IsTrue(!sw.ToString().Contains("Max load reached"),i.ToString() + "\n" + sw);
+                    Assert.IsTrue(!sw.ToString().Contains("Max load reached"),"Loop: " + i.ToString() + " failed\n" + sw);
                 }
-                Assert.IsTrue(sw.ToString().Contains("= == == == == == == == == == == == == == == == == == == == == ="));
+                Assert.IsTrue(sw.ToString().Contains("= == == == == == == == == == == == == == == == == == == == == ="),"Ship output was not wide enough");
             }
         }
-
+        
+        /// <summary>
+        /// Tests if the chat outputs match the ship state when loading
+        /// too many containers through the Main function 
+        /// </summary>
         [TestMethod]
         public void TestMainTooHeavy()
         {
@@ -77,6 +85,9 @@ namespace TestContainership
             Assert.IsTrue(sw.ToString().Contains("Max load reached"),sw + "\nDoes not contain Max load reached");
         }
 
+        /// <summary>
+        /// Tests if the chat outputs match the ship state when entering an invalid width
+        /// </summary>
         [TestMethod]
         public void TestMainInvalidWidth()
         {
@@ -91,6 +102,9 @@ namespace TestContainership
             Assert.IsTrue(sw.ToString().Contains("Give a width above 0"),sw.ToString());
         }
 
+        /// <summary>
+        /// Tests if the chat outputs match the ship state when entering an invalid length
+        /// </summary>
         [TestMethod]
         public void TestMainInvalidLength()
         {
@@ -105,6 +119,9 @@ namespace TestContainership
             Assert.IsTrue(sw.ToString().Contains("Give a length above 0"),sw.ToString());
         }
 
+        /// <summary>
+        /// Tests if the chat outputs match the ship state when entering an invalid max load
+        /// </summary>
         [TestMethod]
         public void TestMainInvalidMaxLoad()
         {
@@ -119,6 +136,9 @@ namespace TestContainership
             Assert.IsTrue(sw.ToString().Contains("Give a max load above 0"),sw.ToString());
         }
 
+        /// <summary>
+        /// Tests if the chat outputs match the ship state when entering an invalid container amount
+        /// </summary>
         [TestMethod]
         public void TestMainInvalidContainerAmount()
         {
@@ -133,6 +153,9 @@ namespace TestContainership
             Assert.IsTrue(sw.ToString().Contains("Give a nr of containers above 0"),sw.ToString());
         }
         
+        /// <summary>
+        /// Tests if the chat outputs match the ship state when entering an invalid layer input
+        /// </summary>
         [TestMethod]
         public void TestMainInvalidLayerInput()
         {

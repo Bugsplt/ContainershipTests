@@ -8,6 +8,9 @@ namespace TestContainership.ClassesTests
     [TestClass]
     public class ShipTests
     {
+        /// <summary>
+        /// Tests if the set size function sets the correct ship size
+        /// </summary>
         [TestMethod]
         public void TestSetSize()
         {
@@ -20,6 +23,9 @@ namespace TestContainership.ClassesTests
             Assert.AreEqual(20 , ship.GetStackRows()[0].GetStacks().Count);
         }
         
+        /// <summary>
+        /// Tests if setting a negative width throws an exception
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException),
             "Negative/0 width was allowed.")]
@@ -30,9 +36,12 @@ namespace TestContainership.ClassesTests
             //act
             ship.SetSize(10,-20);
             //assert
-            Assert.Fail();
+            Assert.Fail("Function should not finish execution");
         }
         
+        /// <summary>
+        /// Tests if setting a negative length throws an exception
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException),
             "Negative/0 length was allowed.")]
@@ -43,9 +52,12 @@ namespace TestContainership.ClassesTests
             //act
             ship.SetSize(-10,20);
             //assert
-            Assert.Fail();
+            Assert.Fail("Function should not finish execution");
         }
         
+        /// <summary>
+        /// Tests if setting a negative max load throws an exception
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException),
             "Negative/0 max load was allowed.")]
@@ -56,9 +68,12 @@ namespace TestContainership.ClassesTests
             //act
             ship.SetMaxLoad(-10);
             //assert
-            Assert.Fail();
+            Assert.Fail("Function should not finish execution");
         }
 
+        /// <summary>
+        /// Tests if, in case of a valid load, all containers are loaded onto the ship
+        /// </summary>
         [TestMethod]
         public void TestPutLoad()
         {
@@ -82,9 +97,14 @@ namespace TestContainership.ClassesTests
                     containerCount += stack.GetContainers().Count;
                 }
             }
-            Assert.AreEqual(nrOfContainers, containerCount);
+            Assert.AreEqual(nrOfContainers, containerCount,
+                "Not all containers where loaded onto the ship");
         }
+        
 
+        /// <summary>
+        /// Test if the expected amount of rows is retrieved
+        /// </summary>
         [TestMethod]
         public void TestGetStackRows()
         {
@@ -95,9 +115,14 @@ namespace TestContainership.ClassesTests
             //act
             var stackRowAmount = ship.GetStackRows().Count;
             //assert
-            Assert.AreEqual(expectedStackRowAmount, stackRowAmount);
+            Assert.AreEqual(expectedStackRowAmount, stackRowAmount,
+                "Function did not retrieve all rows");
         }
 
+        /// <summary>
+        /// Tests if the GetLayer function retrieves the expected amount of containers
+        /// from a layer.
+        /// </summary>
         [TestMethod]
         public void TestGetLayer()
         { 
@@ -116,10 +141,15 @@ namespace TestContainership.ClassesTests
             //assert
             var matchedContainers = MatchedContainers(layer);
             var secondMatchedContainers = MatchedContainers(secondLayer);
-            Assert.AreEqual(expectedContainers, matchedContainers);
-            Assert.AreEqual(0, secondMatchedContainers);
+            Assert.AreEqual(expectedContainers, matchedContainers,
+                "All containers should be found on this layer");
+            Assert.AreEqual(0, secondMatchedContainers,
+                "No containers should be found on this layer");
         }
         
+        /// <summary>
+        /// Returns the amount of loaded containers in a layer
+        /// </summary>
         private static int MatchedContainers(IReadOnlyList<List<Container>> layer)
         {
             var matchedContainers = 0;
